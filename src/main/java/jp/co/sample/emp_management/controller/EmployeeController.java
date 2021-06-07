@@ -1,5 +1,6 @@
 package jp.co.sample.emp_management.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
 	 * 
@@ -41,26 +42,43 @@ public class EmployeeController {
 	// ユースケース：従業員一覧を表示する
 	/////////////////////////////////////////////////////
 	/**
-	 * 従業員一覧画面を出力します.
+	 * 従業員一覧画面を出力します.<br>
+	 * 名前の検索フォームが利用された場合には従業員名の曖昧検索を行います。
+	 * 検索結果が一件も存在しなかった場合は「１件もありませんでした」というメッセージの表示と全件検索の結果を出力します。
 	 * 
+	 * @param name  検索する名前
 	 * @param model モデル
 	 * @return 従業員一覧画面
 	 */
 	@RequestMapping("/showList")
-	public String showList(Model model) {
-		List<Employee> employeeList = employeeService.showList();
+	public String showList(String name, Model model) {
+
+		List<Employee> employeeList = new ArrayList<>();
+
+		if (name == null || name.isBlank()) {
+			// 名前検索フォームが利用されていない or 名前検索フォームが空欄だった場合
+			employeeList = employeeService.showList();
+		} else {
+			employeeList = employeeService.searchByName(name);
+		}
+
+		// 検索結果が一件も存在しなかった場合
+		if (employeeList.isEmpty()) {
+			employeeList = employeeService.showList();
+			model.addAttribute("isEmptyEmployeeList", "１件もありませんでした");
+		}
+
 		model.addAttribute("employeeList", employeeList);
 		return "employee/list";
 	}
 
-	
 	/////////////////////////////////////////////////////
 	// ユースケース：従業員詳細を表示する
 	/////////////////////////////////////////////////////
 	/**
 	 * 従業員詳細画面を出力します.
 	 * 
-	 * @param id リクエストパラメータで送られてくる従業員ID
+	 * @param id    リクエストパラメータで送られてくる従業員ID
 	 * @param model モデル
 	 * @return 従業員詳細画面
 	 */
@@ -70,20 +88,19 @@ public class EmployeeController {
 		model.addAttribute("employee", employee);
 		return "employee/detail";
 	}
-	
+
 	/////////////////////////////////////////////////////
 	// ユースケース：従業員詳細を更新する
 	/////////////////////////////////////////////////////
 	/**
 	 * 従業員詳細(ここでは扶養人数のみ)を更新します.
 	 * 
-	 * @param form
-	 *            従業員情報用フォーム
+	 * @param form 従業員情報用フォーム
 	 * @return 従業員一覧画面へリダクレクト
 	 */
 	@RequestMapping("/update")
 	public String update(@Validated UpdateEmployeeForm form, BindingResult result, Model model) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return showDetail(form.getId(), model);
 		}
 		Employee employee = new Employee();
