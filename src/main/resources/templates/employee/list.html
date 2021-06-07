@@ -64,7 +64,7 @@
 
 <!-- ここにモックのtable要素を貼り付けます -->
 
-				<form action="list.html" th:action="@{/employee/showList}">
+				<form action="list.html" th:action="@{/employee/showList}" method="post">
 					<label for="search-name">名前：</label>
 					<input type="text" name="name" id="search-name">	
 					<button>検索</button>		
