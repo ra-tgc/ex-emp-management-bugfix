@@ -80,6 +80,11 @@ public class AdministratorController {
 			model.addAttribute("dupEmail", "メールアドレスが重複しています");
 			return "administrator/insert";
 		}
+		// パスワードが確認用パスワードと一致しているかチェック
+		if (!administrator.getPassword().equals(form.getCheckPassword())) {
+			model.addAttribute("mismatchPassword", "パスワードが一致しません");
+			return "administrator/insert";
+		}
 
 		administratorService.insert(administrator);
 		return "employee/list";

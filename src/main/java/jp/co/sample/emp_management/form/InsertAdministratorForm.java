@@ -13,6 +13,8 @@ public class InsertAdministratorForm {
 	private String mailAddress;
 	/** パスワード */
 	private String password;
+	/** 確認用パスワード */
+	private String checkPassword;
 
 	/**
 	 * @return the name
@@ -55,11 +57,19 @@ public class InsertAdministratorForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String getCheckPassword() {
+		return checkPassword;
+	}
+
+	public void setCheckPassword(String checkPassword) {
+		this.checkPassword = checkPassword;
+	}
+
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ "]";
+				+ ", checkPassword=" + checkPassword + "]";
 	}
-	
+
 }
