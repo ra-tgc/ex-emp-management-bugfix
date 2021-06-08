@@ -1,5 +1,9 @@
 package jp.co.sample.emp_management.form;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * 従業員情報登録時に使用するフォーム.
  * 
@@ -8,26 +12,37 @@ package jp.co.sample.emp_management.form;
  */
 public class InsertEmployeeForm {
 	/** 従業員名 */
+	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String name;
 	/** 画像 */
 	private String image;
 	/** 性別 */
+	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String gender;
 	/** 入社日 */
+	@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "yyyy-MM-ddの形式で入力してください")
 	private String hireDate;
 	/** メールアドレス */
+	@Email(message = "メールアドレスの形式にしてください")
+	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String mailAddress;
 	/** 郵便番号 */
+	@Pattern(regexp = "^\\d{3}-\\d{4}$", message = "XXX-XXXXの形式で入力してください")
 	private String zipCode;
 	/** 住所 */
+	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String address;
 	/** 電話番号 */
+	@Pattern(regexp = "^0\\d{1,4}-\\d{1,4}-\\d{4}$", message = "XXX-XXXX-XXXXかXX-XXXX-XXXXの形式で入力してください")
 	private String telephone;
 	/** 給料 */
+	@Pattern(regexp = "^\\d{1,64}$", message = "1桁以上64桁以下で入力してください")
 	private String salary;
 	/** 特性 */
+	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String characteristics;
 	/** 扶養人数 */
+	@Pattern(regexp = "^\\d{1,2}$", message = "1桁以上2桁以下で入力してください")
 	private String dependentsCount;
 
 	public InsertEmployeeForm() {

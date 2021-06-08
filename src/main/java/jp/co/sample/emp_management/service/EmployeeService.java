@@ -61,4 +61,15 @@ public class EmployeeService {
 	public void insert(Employee employee) {
 		employeeRepository.insert(employee);
 	}
+
+	/**
+	 * 従業員情報を曖昧検索します.
+	 * 
+	 * @param name 名前
+	 * @return 曖昧検索で一致する従業員情報一覧 存在しない場合は空のリストlが返ります
+	 */
+	public List<Employee> searchByName(String name) {
+		List<Employee> employeeList = employeeRepository.findByName(name);
+		return employeeList;
+	}
 }

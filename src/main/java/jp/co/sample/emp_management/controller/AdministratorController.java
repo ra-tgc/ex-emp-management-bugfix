@@ -72,14 +72,24 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@RequestMapping("/insert")
-	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "administrator/insert";
 		}
-
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
+		// メールアドレスが既に登録されていないかチェック
+		if (administratorService.dupCheckEmail(administrator.getMailAddress()) != null) {
+			result.rejectValue("mailAddress", null, "メールアドレスが重複しています");
+			return "administrator/insert";
+		}
+		// パスワードが確認用パスワードと一致しているかチェック
+		if (!administrator.getPassword().equals(form.getCheckPassword())) {
+			result.rejectValue("password", null, "パスワードが一致しません");
+			return "administrator/insert";
+		}
+
 		administratorService.insert(administrator);
 		return "redirect:/";
 	}
@@ -111,6 +121,7 @@ public class AdministratorController {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return toLogin();
 		}
+		session.setAttribute("administratorName", administrator.getName());
 		return "forward:/employee/showList";
 	}
 
