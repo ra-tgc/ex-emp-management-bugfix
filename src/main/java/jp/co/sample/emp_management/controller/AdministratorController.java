@@ -81,12 +81,12 @@ public class AdministratorController {
 		BeanUtils.copyProperties(form, administrator);
 		// メールアドレスが既に登録されていないかチェック
 		if (administratorService.dupCheckEmail(administrator.getMailAddress()) != null) {
-			model.addAttribute("dupEmail", "メールアドレスが重複しています");
+			result.rejectValue("mailAddress", null, "メールアドレスが重複しています");
 			return "administrator/insert";
 		}
 		// パスワードが確認用パスワードと一致しているかチェック
 		if (!administrator.getPassword().equals(form.getCheckPassword())) {
-			model.addAttribute("mismatchPassword", "パスワードが一致しません");
+			result.rejectValue("password", null, "パスワードが一致しません");
 			return "administrator/insert";
 		}
 

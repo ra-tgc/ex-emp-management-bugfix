@@ -59,7 +59,6 @@
 										<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
 											メールアドレスを入力してください
 										</label>
-										<span th:text="${dupEmail}" class="error-messages">メールアドレスが重複しています</span><br>
 										<input type="text" name="mailAddress" id="mailAddress" class="form-control" placeholder="yamada@mail.com"
 											 th:field="*{mailAddress}" th:errorclass="error-input" value="yamada@mail.com">
 									</div>
@@ -87,7 +86,6 @@
 										<label for="checkPassword">
 											確認用パスワード:
 										</label>
-										<span th:text="${mismatchPassword}" class="error-messages">パスワードが一致しません</span><br>
 										<input type="password" name="checkPassword" id="checkPassword" class="form-control" placeholder="checkPassword"
 											 th:field="*{checkPassword}" th:errorclass="error-input" value="xxxxxxxx">
 									</div>
