@@ -32,7 +32,7 @@ public class AdministratorService {
 	 * @return パスワードエンコーダ
 	 */
 	@Bean
-	PasswordEncoder passwordEncoder() {
+	private PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
