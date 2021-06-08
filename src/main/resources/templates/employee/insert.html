@@ -180,8 +180,8 @@
 										<label th:if="${#fields.hasErrors('characteristics')}" th:errors="*{characteristics}" class="error-messages">
 											特性を入力してください
 										</label>
-										<input type="text" name="characteristics" id="characteristics" class="form-control" placeholder="元気いっぱいです！"
-											 th:field="*{characteristics}" th:errorclass="error-input" value="元気いっぱいです！">
+										<textarea name="characteristics" id="characteristics" class="form-control" placeholder="元気いっぱいです！"
+											 th:field="*{characteristics}" th:errorclass="error-input" rows="5">元気いっぱいです！</textarea>
 									</div>
 								</div>
 							</div>
