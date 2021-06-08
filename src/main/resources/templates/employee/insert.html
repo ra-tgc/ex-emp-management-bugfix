@@ -89,8 +89,23 @@
 										<label th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}" class="error-messages">
 											入社日を入力してください
 										</label>
-										<input type="text" name="hireDate" id="hireDate" class="form-control" placeholder="2021/06/08"
-											 th:field="*{hireDate}" th:errorclass="error-input" value="2021/06/08">
+										<input type="text" name="hireDate" id="hireDate" class="form-control" placeholder="2021-6-8"
+											 th:field="*{hireDate}" th:errorclass="error-input" value="2021-6-8">
+									</div>
+								</div>
+							</div>
+							<!-- メールアドレス -->
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-12">
+										<label for="mailAddress">
+											メールアドレス:
+										</label>
+										<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
+											メールアドレスを入力してください
+										</label>
+										<input type="text" name="mailAddress" id="mailAddress" class="form-control" placeholder="abc@mail.com"
+											 th:field="*{mailAddress}" th:errorclass="error-input" value="abc@mail.com">
 									</div>
 								</div>
 							</div>
