@@ -106,9 +106,6 @@ public class EmployeeController {
 	/**
 	 * 従業員情報を登録します.
 	 * 
-	 * @param form 管理者情報用フォーム
-	 * @return ログイン画面へリダイレクト
-	 * 
 	 * @param form   従業員情報用フォーム
 	 * @param result エラー情報格納用オブジェクト
 	 * @param model  リクエストスコープ
@@ -117,7 +114,7 @@ public class EmployeeController {
 	@RequestMapping("/insert")
 	public String insert(@Validated InsertEmployeeForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "employee/insert";
+			return toInsert();
 		}
 
 		Employee employee = new Employee();
@@ -126,6 +123,18 @@ public class EmployeeController {
 		employee.setSalary(Integer.parseInt(form.getSalary()));
 		employee.setDependentsCount(Integer.parseInt(form.getDependentsCount()));
 
+		employeeService.insert(employee);
+
 		return "redirect:/employee/showList";
+	}
+
+	/**
+	 * 従業員登録画面に遷移します.
+	 * 
+	 * @return 従業員登録画面
+	 */
+	@RequestMapping("/toInsert")
+	public String toInsert() {
+		return "employee/insert";
 	}
 }
