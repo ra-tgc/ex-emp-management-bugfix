@@ -20,6 +20,8 @@ public class InsertAdministratorForm {
 	/** パスワード */
 	@Size(min = 1, max = 64, message = "1文字以上64文字以内で入力してください")
 	private String password;
+	/** 確認用パスワード */
+	private String checkPassword;
 
 	/**
 	 * @return the name
@@ -63,10 +65,18 @@ public class InsertAdministratorForm {
 		this.password = password;
 	}
 
+	public String getCheckPassword() {
+		return checkPassword;
+	}
+
+	public void setCheckPassword(String checkPassword) {
+		this.checkPassword = checkPassword;
+	}
+
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ "]";
+				+ ", checkPassword=" + checkPassword + "]";
 	}
 
 }

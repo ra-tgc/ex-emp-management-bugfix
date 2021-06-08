@@ -65,4 +65,15 @@ public class AdministratorService {
 
 		return administrator;
 	}
+
+	/**
+	 * メールアドレスの重複がないか確認します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 管理者情報 重複しない場合はnullが返ります
+	 */
+	public Administrator dupCheckEmail(String mailAddress) {
+		Administrator administartor = administratorRepository.findByMailAddress(mailAddress);
+		return administartor;
+	}
 }

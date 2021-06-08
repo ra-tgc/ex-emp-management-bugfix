@@ -40,7 +40,7 @@
 						<li class="active"><a href="list.html" th:href="@{/employee/showList}">従業員管理</a></li>
 					</ul>
 					<p class="navbar-text navbar-right">
-						<span th:text="${administratorName}">山田太郎</span>さんこんにちは！
+						<span th:text="${session.administratorName}">山田太郎</span>さんこんにちは！
 						&nbsp;&nbsp;&nbsp;
 						<a href="../administrator/login.html" class="navbar-link" th:href="@{/logout}">ログアウト</a>
 					</p>
@@ -64,6 +64,13 @@
 
 <!-- ここにモックのtable要素を貼り付けます -->
 
+				<form action="list.html" th:action="@{/employee/showList}" method="post">
+					<label for="search-name">名前：</label>
+					<input type="text" name="name" id="search-name">	
+					<button>検索</button>		
+				</form>
+				
+				<span th:if="${isEmptyEmployeeList}" th:text="${isEmptyEmployeeList}"></span>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -88,7 +95,6 @@
 						</tr>
 					</tbody>
 				</table>
-
 
 <!-- ここから下を編集する必要はありません -->
 
