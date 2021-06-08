@@ -54,6 +54,7 @@ public class EmployeeController {
 	public String showList(String name, Model model) {
 
 		List<Employee> employeeList = new ArrayList<>();
+		List<String> nameList = new ArrayList<>();
 
 		if (name == null || name.isBlank()) {
 			// 名前検索フォームが利用されていない or 名前検索フォームが空欄だった場合
@@ -68,7 +69,13 @@ public class EmployeeController {
 			model.addAttribute("isEmptyEmployeeList", "１件もありませんでした");
 		}
 
+		List<Employee> allEmployeeList = employeeService.showList();
+		for (Employee employee : allEmployeeList) {
+			nameList.add(employee.getName());
+		}
+
 		model.addAttribute("employeeList", employeeList);
+		model.addAttribute("nameList", nameList);
 		return "employee/list";
 	}
 
