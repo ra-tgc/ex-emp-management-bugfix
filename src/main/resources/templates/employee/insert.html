@@ -33,7 +33,7 @@
 
 					<form method="post" action="list.html" th:action="@{/employee/insert}" th:object="${insertEmployeeForm}">
 						<fieldset>
-							<legend>管理者登録<br>(システムにログインできる管理者を登録します)</legend>
+							<legend>従業員登録</legend>
 							<!-- 氏名 -->
 							<div class="form-group">
 								<div class="row">
@@ -121,6 +121,7 @@
 										</label>
 										<input type="text" name="zipCode" id="zipCode" class="form-control" placeholder="000-0000"
 											 th:field="*{zipCode}" th:errorclass="error-input" value="000-0000">
+										<button type="button" id="get-address-button">住所取得</button>
 									</div>
 								</div>
 							</div>
@@ -221,5 +222,6 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="../../static/js/bootstrap.min.js"></script>
+	<script src="../../static/js/insert-employee.js" th:src="@{/js/insert-employee.js}"></script>
 </body>
 </html>
