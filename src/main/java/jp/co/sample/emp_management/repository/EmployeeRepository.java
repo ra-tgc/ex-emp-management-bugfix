@@ -85,6 +85,7 @@ public class EmployeeRepository {
 	}
 
 	/**
+	 * <<<<<<< HEAD
 	 * 
 	 * 従業員情報を登録します.
 	 * 
@@ -98,7 +99,7 @@ public class EmployeeRepository {
 	}
 
 	/**
-	 * 名前から従業員情報を曖昧検索します.<br>
+	 * ======= >>>>>>> develop 名前から従業員情報を曖昧検索します.<br>
 	 * 結果は入社日の昇順でソートされます。
 	 * 
 	 * @param name 検索したい名前

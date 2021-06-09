@@ -54,7 +54,7 @@ public class EmployeeService {
 	}
 
 	/**
-	 * 従業員情報を登録します.
+	 * <<<<<<< HEAD 従業員情報を登録します.
 	 * 
 	 * @param employee 登録する従業員情報
 	 */
@@ -63,7 +63,7 @@ public class EmployeeService {
 	}
 
 	/**
-	 * 従業員情報を曖昧検索します.
+	 * ======= >>>>>>> develop 従業員情報を曖昧検索します.
 	 * 
 	 * @param name 名前
 	 * @return 曖昧検索で一致する従業員情報一覧 存在しない場合は空のリストlが返ります
