@@ -1,16 +1,28 @@
 package jp.co.sample.emp_management.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.sample.emp_management.domain.Employee;
 import jp.co.sample.emp_management.form.InsertEmployeeForm;
@@ -29,6 +41,8 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	private final String FILEPATH = "C:/env/spring-workspace/ex-emp-management-bugfix/src/main/resources/static/img/";
 
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
@@ -140,6 +154,18 @@ public class EmployeeController {
 	@RequestMapping("/insert")
 	public String insert(@Validated InsertEmployeeForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			String fileName = form.getImage();
+			Path filePath = Paths.get(FILEPATH + fileName);
+			if (Files.exists(filePath)) {
+				try {
+					Files.delete(filePath);
+					FieldError fieldError = new FieldError(result.getObjectName(), "image", "もう一度アップロードし直してください");
+					result.addError(fieldError);
+					form.setImage(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			return toInsert();
 		}
 
@@ -162,5 +188,42 @@ public class EmployeeController {
 	@RequestMapping("/toInsert")
 	public String toInsert() {
 		return "employee/insert";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public Map<String, String> upload(@RequestParam("file") MultipartFile image) {
+		String fileName = image.getOriginalFilename();
+		Path filePath = Paths.get(FILEPATH + fileName);
+		Map<String, String> map = new HashMap<>();
+		String uploadFileMessage = "";
+
+		if (image.isEmpty()) {
+			uploadFileMessage = "ファイルがアップロードされていません";
+			map.put("uploadFileMessage", uploadFileMessage);
+			return map;
+		}
+
+		if (!"image/jpeg".equals(image.getContentType()) && !"image/png".equals(image.getContentType())) {
+			uploadFileMessage = "ファイルの形式がサポートされていません";
+			map.put("uploadFileMessage", uploadFileMessage);
+			return map;
+		}
+
+		try {
+			// アップロードファイルをバイト値に変換
+			byte[] bytes = image.getBytes();
+			// バイト値を書き込むためのファイルを作成して指定したパスに格納
+			OutputStream stream = Files.newOutputStream(filePath);
+			// ファイルに書き込み
+			stream.write(bytes);
+			uploadFileMessage = "ファイルのアップロードに成功しました";
+		} catch (Exception e) {
+			e.printStackTrace();
+			uploadFileMessage = "ファイルのアップロードに失敗しました";
+		}
+		map.put("uploadFileName", fileName);
+		map.put("uploadFileMessage", uploadFileMessage);
+		return map;
 	}
 }

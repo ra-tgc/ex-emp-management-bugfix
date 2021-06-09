@@ -31,7 +31,7 @@
 
 <!-- ここにモックのform要素を貼り付けます -->
 
-					<form method="post" action="list.html" th:action="@{/employee/insert}" th:object="${insertEmployeeForm}">
+					<form method="post" action="list.html" th:action="@{/employee/insert}" th:object="${insertEmployeeForm}" enctype="multipart/form-data" id="insertEmployeeForm">
 						<fieldset>
 							<legend>従業員登録</legend>
 							<!-- 氏名 -->
@@ -59,7 +59,8 @@
 										<label th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-messages">
 											画像をアップロードしてください
 										</label>
-										<input type="text" name="image" id="image" class="form-control" placeholder="image.png"
+										<input type="file" id="file" name="file"><button type="button" id="upload-button">画像送信</button>
+										<input type="hidden" name="image" id="image" placeholder="image.png"
 											 th:field="*{image}" th:errorclass="error-input" value="image.png">
 									</div>
 								</div>
@@ -204,7 +205,7 @@
 							<div class="form-group">
 								<div class="row">
 									<div class="col-sm-12">
-										<button type="submit" class="btn btn-primary">登録</button>
+										<button type="submit" class="btn btn-primary" id="submit">登録</button>
 									</div>
 								</div>
 							</div>
