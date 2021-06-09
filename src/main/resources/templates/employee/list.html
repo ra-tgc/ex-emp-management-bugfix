@@ -97,7 +97,7 @@
 				</table>
 
 <!-- ここから下を編集する必要はありません -->
-
+				<a th:each="pageNum : ${pageNumList}" th:text="${pageNum}"  href="list.html" th:href="@{'/employee/showList?page=' + ${pageNum}} ">テスト</a>
 			</div>
 		</div>
 	</div>
