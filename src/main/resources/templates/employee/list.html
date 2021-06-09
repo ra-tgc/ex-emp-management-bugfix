@@ -97,8 +97,8 @@
 				</table>
 
 <!-- ここから下を編集する必要はありません -->		
-				<a th:if="${searchName}" th:each="pageNum : ${pageNumList}" th:text="${pageNum}"  href="list.html" th:href="@{'/employee/showList?page=' + ${pageNum} + '&name=' + ${name}}">ダミー</a>
-				<a th:unless="${searchName}" th:each="pageNum : ${pageNumList}" th:text="${pageNum}"  href="list.html" th:href="@{'/employee/showList?page=' + ${pageNum}} ">ダミー</a>
+				<a th:if="${name}" th:each="pageNum : ${pageNumList}" th:text="${pageNum}"  href="list.html" th:href="@{'/employee/showList?page=' + ${pageNum} + '&name=' + ${name}}">ダミー</a>
+				<a th:unless="${name}" th:each="pageNum : ${pageNumList}" th:text="${pageNum}"  href="list.html" th:href="@{'/employee/showList?page=' + ${pageNum}} ">ダミー</a>
 			</div>
 		</div>
 	</div>
