@@ -112,4 +112,20 @@ public class EmployeeRepository {
 
 		return employeeList;
 	}
+
+	/**
+	 * メールアドレスから従業員情報を取得します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 従業員情報 存在しない場合はnullを返します
+	 */
+	public Employee findByMailAddress(String mailAddress) {
+		String sql = "select id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees where mail_address=:mailAddress";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
+		List<Employee> employeeList = template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+		if (employeeList.size() == 0) {
+			return null;
+		}
+		return employeeList.get(0);
+	}
 }

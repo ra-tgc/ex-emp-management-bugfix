@@ -184,6 +184,12 @@ public class EmployeeController {
 		employee.setSalary(Integer.parseInt(form.getSalary()));
 		employee.setDependentsCount(Integer.parseInt(form.getDependentsCount()));
 
+		// メールアドレスが重複していた場合
+		if (employeeService.dupCheckEmail(employee.getMailAddress()) != null) {
+			result.rejectValue("mailAddress", null, "メールアドレスが重複しています");
+			return toInsert();
+		}
+
 		employeeService.insert(employee);
 
 		return "redirect:/employee/showList";

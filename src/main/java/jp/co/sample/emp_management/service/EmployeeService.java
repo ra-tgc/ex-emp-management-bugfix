@@ -72,4 +72,15 @@ public class EmployeeService {
 		List<Employee> employeeList = employeeRepository.findByName(name);
 		return employeeList;
 	}
+
+	/**
+	 * メールアドレスの重複がないか確認します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 従業員情報 重複しない場合はnullが返ります
+	 */
+	public Employee dupCheckEmail(String mailAddress) {
+		Employee employee = employeeRepository.findByMailAddress(mailAddress);
+		return employee;
+	}
 }
