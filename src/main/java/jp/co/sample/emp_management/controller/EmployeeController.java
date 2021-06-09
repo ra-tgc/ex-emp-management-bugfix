@@ -219,18 +219,29 @@ public class EmployeeController {
 		Map<String, String> map = new HashMap<>();
 		String uploadFileMessage = "";
 
+		// ファイルがアップロードされていなかった場合
 		if (image.isEmpty()) {
 			uploadFileMessage = "ファイルがアップロードされていません";
 			map.put("uploadFileMessage", uploadFileMessage);
 			return map;
 		}
 
+		// ファイルの形式がjpegかpng以外だった場合
 		if (!"image/jpeg".equals(image.getContentType()) && !"image/png".equals(image.getContentType())) {
 			uploadFileMessage = "ファイルの形式がサポートされていません";
 			map.put("uploadFileMessage", uploadFileMessage);
 			return map;
 		}
 
+		// 画像が既に存在していた場合
+		if (Files.exists(filePath)) {
+			uploadFileMessage = "既に画像が登録されています";
+			map.put("uploadFileName", fileName);
+			map.put("uploadFileMessage", uploadFileMessage);
+			return map;
+		}
+
+		// 画像アップロード処理
 		try {
 			// アップロードファイルをバイト値に変換
 			byte[] bytes = image.getBytes();
