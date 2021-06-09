@@ -27,6 +27,7 @@ import jp.co.sample.emp_management.domain.Employee;
 import jp.co.sample.emp_management.form.InsertEmployeeForm;
 import jp.co.sample.emp_management.form.UpdateEmployeeForm;
 import jp.co.sample.emp_management.service.EmployeeService;
+import jp.co.sample.emp_management.util.Pagenation;
 
 /**
  * 従業員情報を操作するコントローラー.
@@ -41,6 +42,7 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+	private static final int PAGE_SIZE = 10;
 	private final String FILEPATH = "C:/env/spring-workspace/ex-emp-management-bugfix/src/main/resources/static/img/";
 
 	/**
@@ -75,8 +77,9 @@ public class EmployeeController {
 	 * @param model モデル
 	 * @return 従業員一覧画面
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/showList")
-	public String showList(String name, Model model) {
+	public String showList(String name, String page, Model model) {
 
 		List<Employee> employeeList = new ArrayList<>();
 		List<String> nameList = new ArrayList<>();
@@ -86,6 +89,7 @@ public class EmployeeController {
 			employeeList = employeeService.showList();
 		} else {
 			employeeList = employeeService.searchByName(name);
+			model.addAttribute("name", name);
 		}
 
 		// 検索結果が一件も存在しなかった場合
@@ -99,6 +103,16 @@ public class EmployeeController {
 			nameList.add(employee.getName());
 		}
 
+		// ページネーション処理
+		Pagenation pagenation = new Pagenation(employeeList, PAGE_SIZE);
+		if (page == null) {
+			employeeList = pagenation.getNumPageContent(1);
+		} else {
+			employeeList = pagenation.getNumPageContent(Integer.parseInt(page));
+		}
+		List<Integer> pageNumList = pagenation.getPageNumList();
+
+		model.addAttribute("pageNumList", pageNumList);
 		model.addAttribute("employeeList", employeeList);
 		model.addAttribute("nameList", nameList);
 		return "employee/list";
