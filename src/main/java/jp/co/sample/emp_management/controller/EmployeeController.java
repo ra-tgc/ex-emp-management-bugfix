@@ -199,6 +199,12 @@ public class EmployeeController {
 		return "employee/insert";
 	}
 
+	/**
+	 * 画像をアップロードします.
+	 * 
+	 * @param image 画像
+	 * @return 処理結果のメッセージとファイル名を格納したmap
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public Map<String, String> upload(@RequestParam("file") MultipartFile image) {
