@@ -79,6 +79,7 @@ public class EmployeeController {
 			nameList.add(employee.getName());
 		}
 
+		// ページネーション処理
 		Pagenation pagenation = new Pagenation(employeeList, PAGE_SIZE);
 		if (page == null) {
 			employeeList = pagenation.getNumPageContent(1);
