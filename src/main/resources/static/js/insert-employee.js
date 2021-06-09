@@ -38,6 +38,7 @@
 			alert(data.uploadFileMessage);
 			console.dir(JSON.stringify(data));
 			$("#image").val(data.uploadFileName);
+			$("#img").attr("src", "/img/"+data.uploadFileName);
 		}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 			alert("正しい結果を得られませんでした。");
 			console.log("XMLHttpRequest：" + XMLHttpRequest.status);

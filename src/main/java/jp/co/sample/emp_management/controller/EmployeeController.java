@@ -1,6 +1,5 @@
 package jp.co.sample.emp_management.controller;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -163,17 +162,10 @@ public class EmployeeController {
 				return toInsert();
 			}
 
-			// 画像の二重送信対策
-			if (Files.exists(filePath)) {
-				try {
-					Files.delete(filePath);
-					FieldError fieldError = new FieldError(result.getObjectName(), "image", "もう一度アップロードし直してください");
-					result.addError(fieldError);
-					form.setImage("");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			// 画像は念のため再アップロード
+			FieldError fieldError = new FieldError(result.getObjectName(), "image", "もう一度アップロードし直してください");
+			result.addError(fieldError);
+			form.setImage("");
 
 			return toInsert();
 		}
