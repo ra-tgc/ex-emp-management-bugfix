@@ -35,7 +35,7 @@
 			dataType: 'json',
 			async: true
 		}).done(function(data){
-			alert("画像アップロードに成功しました。");
+			alert(data.uploadFileMessage);
 			console.dir(JSON.stringify(data));
 			$("#image").val(data.uploadFileName);
 		}).fail(function(XMLHttpRequest, textStatus, errorThrown){

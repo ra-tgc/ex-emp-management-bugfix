@@ -156,16 +156,25 @@ public class EmployeeController {
 		if (result.hasErrors()) {
 			String fileName = form.getImage();
 			Path filePath = Paths.get(FILEPATH + fileName);
+
+			// 画像がアップロードされていなかった場合
+			if (fileName.isBlank()) {
+				result.rejectValue("image", null, "画像をアップロードしてください");
+				return toInsert();
+			}
+
+			// 画像の二重送信対策
 			if (Files.exists(filePath)) {
 				try {
 					Files.delete(filePath);
 					FieldError fieldError = new FieldError(result.getObjectName(), "image", "もう一度アップロードし直してください");
 					result.addError(fieldError);
-					form.setImage(null);
+					form.setImage("");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
+
 			return toInsert();
 		}
 

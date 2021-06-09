@@ -15,6 +15,7 @@ public class InsertEmployeeForm {
 	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
 	private String name;
 	/** 画像 */
+	@Size(min = 1, max = 64, message = "ファイル名は1文字以上64文字以下にしてください")
 	private String image;
 	/** 性別 */
 	@Size(min = 1, max = 64, message = "1文字以上64文字以下で入力してください")
