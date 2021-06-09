@@ -54,7 +54,16 @@ public class EmployeeService {
 	}
 
 	/**
-	 * 従業員情報を曖昧検索します.
+	 * <<<<<<< HEAD 従業員情報を登録します.
+	 * 
+	 * @param employee 登録する従業員情報
+	 */
+	public void insert(Employee employee) {
+		employeeRepository.insert(employee);
+	}
+
+	/**
+	 * ======= >>>>>>> develop 従業員情報を曖昧検索します.
 	 * 
 	 * @param name 名前
 	 * @return 曖昧検索で一致する従業員情報一覧 存在しない場合は空のリストlが返ります
@@ -62,5 +71,16 @@ public class EmployeeService {
 	public List<Employee> searchByName(String name) {
 		List<Employee> employeeList = employeeRepository.findByName(name);
 		return employeeList;
+	}
+
+	/**
+	 * メールアドレスの重複がないか確認します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 従業員情報 重複しない場合はnullが返ります
+	 */
+	public Employee dupCheckEmail(String mailAddress) {
+		Employee employee = employeeRepository.findByMailAddress(mailAddress);
+		return employee;
 	}
 }

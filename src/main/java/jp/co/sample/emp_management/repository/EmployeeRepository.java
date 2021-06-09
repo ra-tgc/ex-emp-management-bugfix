@@ -85,7 +85,21 @@ public class EmployeeRepository {
 	}
 
 	/**
-	 * 名前から従業員情報を曖昧検索します.<br>
+	 * <<<<<<< HEAD
+	 * 
+	 * 従業員情報を登録します.
+	 * 
+	 * @param employee 登録する従業員情報
+	 */
+	synchronized public void insert(Employee employee) {
+		String sql = "INSERT INTO employees(id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count) VALUES ((SELECT max(id) + 1 FROM employees), :name,:image,:gender,:hireDate,:mailAddress,:zipCode,:address,:telephone,:salary,:characteristics,:dependentsCount);";
+
+		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
+		template.update(sql, param);
+	}
+
+	/**
+	 * ======= >>>>>>> develop 名前から従業員情報を曖昧検索します.<br>
 	 * 結果は入社日の昇順でソートされます。
 	 * 
 	 * @param name 検索したい名前
@@ -98,5 +112,21 @@ public class EmployeeRepository {
 		List<Employee> employeeList = template.query(sql, param, EMPLOYEE_ROW_MAPPER);
 
 		return employeeList;
+	}
+
+	/**
+	 * メールアドレスから従業員情報を取得します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 従業員情報 存在しない場合はnullを返します
+	 */
+	public Employee findByMailAddress(String mailAddress) {
+		String sql = "select id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees where mail_address=:mailAddress";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
+		List<Employee> employeeList = template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+		if (employeeList.size() == 0) {
+			return null;
+		}
+		return employeeList.get(0);
 	}
 }
