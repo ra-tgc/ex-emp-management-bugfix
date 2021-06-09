@@ -29,6 +29,8 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+	private static final int PAGE_SIZE = 10;
+
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
 	 * 
@@ -63,6 +65,7 @@ public class EmployeeController {
 			employeeList = employeeService.showList();
 		} else {
 			employeeList = employeeService.searchByName(name);
+			model.addAttribute("name", name);
 		}
 
 		// 検索結果が一件も存在しなかった場合
@@ -76,7 +79,7 @@ public class EmployeeController {
 			nameList.add(employee.getName());
 		}
 
-		Pagenation pagenation = new Pagenation(employeeList, 10);
+		Pagenation pagenation = new Pagenation(employeeList, PAGE_SIZE);
 		if (page == null) {
 			employeeList = pagenation.getNumPageContent(1);
 		} else {
